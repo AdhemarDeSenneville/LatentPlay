@@ -142,9 +142,9 @@ Another encountered issue was poor control over custom features. To address this
 Furthermore, in the neural synthesis of kick sounds, the attack phase (first 0.05 seconds) is crucial in human evaluations. To enhance the perceived quality of the attack, a weighted loss with higher emphasis at the beginning of each audio sample was implemented. This was achieved using a multiplier envelope parameterized as $e(t) = 1 + Ke^{-\frac{t}{\tau}}$.
 
 The final loss expression is:
-$$
+```math
 L(x,x_{hat},f,f_{hat}) = AURA_{loss}(xe(t),x_{hat}e(t)) + \alpha \|xe(t) - x_{hat}e(t)\|^2 + \beta \|f - f_{hat}\|^2 
-$$
+```
 
 | Loss Config |       |
 |-------------|---------------|
@@ -190,21 +190,13 @@ Unfortunately, the model has been trained on private, paid sample packs. Neither
 
 It is interesting to see that we built a compressed representation of the dataset.
 
-- $
-\text{Dataset\_Size} = \text{Nb\_audio} \times \text{Duration} \times \text{sample rate}
-$
-- $
-\text{Compressed\_Size} = \text{Nb\_audio} \times \text{LatentSpace\_Size} + \text{Nb\_decoder\_parameters}
-$
+- $\text{Dataset\_Size} = \text{Nb\_audio} \times \text{Duration} \times \text{sample rate}$
+- $\text{Compressed\_Size} = \text{Nb\_audio} \times \text{LatentSpace\_Size} + \text{Nb\_decoder\_parameters}$
 
 In one of my experiments, we get:
 
-- $
-\text{Dataset\_Size} = 2,448 \times 0.3 \times 22,050 \approx 16.2 \text{M floats}
-$
-- $
-\text{Compressed\_Size} = 2,448 \times 19 + 2,818,828 \approx 2.9 \text{M floats}
-$
+- $\text{Dataset\_Size} = 2,448 \times 0.3 \times 22,050 \approx 16.2 \text{M floats}$
+- $\text{Compressed\_Size} = 2,448 \times 19 + 2,818,828 \approx 2.9 \text{M floats}$
 
 This gives a compression rate of approximately 6.
 
