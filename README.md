@@ -41,7 +41,7 @@ Dataset
   
 Having your sample separated in different pack allow clear and where each pack is sample in the latent space
 
-###
+### Configuration
 In the code you can change, sample duration, auto encoder duration
 model deep, training hardware, training time ect...
 
@@ -54,11 +54,14 @@ Launch the script and monitor the training via WandB API. You can have accest al
 ![](./fig/training_spect.png)
 
 ### Run the VST
-Put the output file from the run in the models folder
-Put your dataset in the Dataset folder
+Put the training data output file from the run in the models folder
+MODEL_PATH = ... 
+Put your dataset in the dataset folder
+DATASET_PATH = ...
 
+run the application
 ```
-python run GUI/main.py
+python GUI/main.py
 ```
 
 
@@ -86,7 +89,7 @@ Let $z$ represent the latent space. The objective is to find an application in t
 
 
 Those constrain then can  be conviniently expressed as a linear matrix equality $Az' = b$, where:
-$$
+```math
 A = 
 \begin{bmatrix}
  & - - - & w_1 & - - - & \\
@@ -101,7 +104,7 @@ A =
  & \alpha'& \\
  & \beta' & \\
 \end{bmatrix}
-$$
+```
 
 ### Now 
 Now we also want that z' to be 'close' to z in the latent space, our ditance metric is l2 norm between $z$  and $z'$ : $\|z - z'\|^2$
@@ -109,14 +112,15 @@ Now we also want that z' to be 'close' to z in the latent space, our ditance met
 
 #### 
 our new point z' must solve
-$$
+```math
 \begin{aligned}
     & \underset{z'}{\text{minimize}}
     & & \|z - z'\|^2 \\
     & \text{subject to}
     & & Az' = b'
 \end{aligned}
-$$
+```
+
 
 This is a classical convex optimisation problem.
 Analiitical solution is :
@@ -125,25 +129,74 @@ The solution to that
 $$
 z' = z + A^T (A A^T)^{-1} (A z - b) = z + A^T (A A^T)^{-1} (b - b') = 
 $$
-# Training
+### Training Config
+Here you can change the training config
 
-Training is done on Kaggle, using 
-Pytorch lightning for the pipeline
-WandB for the monitoring
+### DATA
 
-# Model
+| Key       | Value                             |
+|-----------|-----------------------------------|
+| duration  | 0.3                               |
+| fade_out  | 0.1                               |
+| sr        | 22050                             |
+| batch_size           | 32                     |
+
+### MODEL
+
+| Key               | Value                    |
+|-------------------|--------------------------|
+| channels          | 64                       |
+| compression_rate  | 0.03                     |
+| factors           | 4, 4, 4, 4, 4            |
+| in_channels       | 1                        |
+| multipliers       | 1, 2, 2, 2, 2, 1         |
+| num_blocks        | 5, 5, 5, 5, 5            |
+
+### TRAINING
+
+| Key                  | Value                  |
+|----------------------|------------------------|
+| audio_loss_params    | alpha: 100, gain: 5, tau: 0.1 |
+| epoch                | 800                    |
+| epoch_min            | 50                     |
+| patience             | 100                    |
+| lr                   | 0.0001                 |
+| features_loss_params | beta: 50               |
+| num_workers          | 3                      |
+| hardware             | P100                   |
+| machine              | Kaggle                 |
+
+
+### Model
 
 Model is Auto encoder constitute of a ResNet of 1d convolution and a dense layer. 
 The model is not a variational auto encoder, because of fiew resons.
 It alows to load directly the samples from your sample pack in the vst plugging by picking the corresponding point in the latent space
 It alows better reconstruction quality
 
-# Loss
+### Loss
 
 First experiment using mse temporal loss had high frequency ...
 Using the time frequency multy rsolution loss, the results were much better
-Also an other default of neural synthesis of the cick, the attack (0.05 first second) is really important to the final impression for us. This issue was improoved using a weighted loss that has hight ponderation at the begining. This was achieved using a multiplier anvlop parametrised as $env(x) = 1 + Ke^{-\frac{x}{\tau}}$
-$\alpha = 100, K = 5, \tau = 0.1$
+Also an other default of neural synthesis of the cick, the attack (0.05 first second) is really important to the final impression for us. This issue was improoved using a weighted loss that has hight ponderation at the begining. This was achieved using a multiplier anvlop parametrised as $e(t) = 1 + Ke^{-\frac{t}{\tau}}$
+
+$$
+L(x,x_{hat},f,f_{hat}) = AURA_{loss}(xe(t),x_{hat}e(t)) + \alpha \|xe(t) - x_{hat}e(t)\|^2 + \beta \|f - f_{hat}\|^2 
+$$
+
+| Loss Config |       |
+|-------------|---------------|
+| $\alpha$    | 100           |
+| $\beta$     | 20            |
+| K           | 5             |
+| $\tau$      | 0.1           |
+
+
+
+## Ethical Consurns
+
+Unfortunatly the model has been trained on sample pack
+neither the dataset and the output model can be givent. Especially given the fact that the model decder weight plus knowing latent space points is able to reproduce the entire private dataset whith high quality.
 
 #
 
@@ -157,28 +210,3 @@ $\alpha = 100, K = 5, \tau = 0.1$
 - Sine sweep
 - Dry (ne reverb) vs wet
 - Round vs dirty
-
-
-
-echo "# LatentPlay" >> README.md
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/AdhemarDeSenneville/LatentPlay.git
-git push -u origin main
-
-git submodule update --init --recursive
-
-cd Simple_EQ_VST_Juce/SimpleEQ/
-
-git branch -r
-
-git checkout <branch-name>
-
-cd ../../..
-
-git add .
-
-git commit -m "Your commit message"
-

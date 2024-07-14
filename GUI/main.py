@@ -11,8 +11,11 @@ from PyQt5.QtCore import Qt, pyqtSignal, QThread, QTimer
 from PyQt5.QtGui import QPainterPath, QTransform, QPen
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from Audio import update, LatentPlayGenerator
+from Audio import LatentPlayGenerator
 from deep_ae import TimeFrequencyLoss
+
+MODEL_PATH = r'models'
+DATASET_PATH = r'Dataset\kick_dataset'
 
 class UpdateThread(QThread):
     resultReady = pyqtSignal(np.ndarray)
@@ -44,7 +47,7 @@ class Ui_Dialog(QMainWindow):
         self.control_precision = 1000
         self.notic_padding = 4000
 
-        self.model = LatentPlayGenerator('models/RUN_8/data')
+        #self.model = LatentPlayGenerator('models/RUN_8/data')
         self.dataset_path = dataset_path
         self.model_path = model_path
 
@@ -542,6 +545,7 @@ class Ui_Dialog(QMainWindow):
         print("INFO : UI set up")
 
     def retranslateUi(self, Dialog):
+
         print("retranslateUi")
         _translate = QtCore.QCoreApplication.translate
         self.checkBox_autorun.setText(_translate("Dialog", "Auto Run"))
@@ -555,7 +559,10 @@ class Ui_Dialog(QMainWindow):
         for index, folder_name in enumerate(folders):
             self.comboBox_Model.addItem("")
             self.comboBox_Model.setItemText(index, _translate("Dialog", folder_name))
-        
+        self.comboBox_Model.currentIndexChanged.connect(self.load_model)
+        self.comboBox_Model.setCurrentIndex(0)
+        self.load_model()
+
         folders = os.listdir(self.dataset_path)    # Populate the comboBox with the folder names
         for index, folder_name in enumerate(folders):
             self.comboBox.addItem("")
@@ -566,7 +573,7 @@ class Ui_Dialog(QMainWindow):
         self.comboBox.setCurrentIndex(0)
         self.populate_combobox2()
         print("INFO : Default pack", self.comboBox.currentText())
-        self.comboBox_Model.currentIndexChanged.connect(self.load_model)
+        
         
         self.pca_label_1.setText(_translate("Dialog", "Latent 1"))
         self.pca_label_2.setText(_translate("Dialog", "Latent 2"))
@@ -731,15 +738,12 @@ class Ui_Dialog(QMainWindow):
     
     def load_model(self):
         print("INFO : Load Model")
-        model_path = os.path.join(self.comboBox_Model.currentText(),'data')
+        model_path = os.path.join(self.model_path,self.comboBox_Model.currentText(),'data')
         print("INFO : Load Model",model_path)
         self.model = LatentPlayGenerator(model_path)
 
 
 if __name__ == "__main__":
-    # Load model
-    MODEL_PATH = r'models'
-    DATASET_PATH = r'Dataset\kick_dataset'
 
     # Run App
     app = QtWidgets.QApplication(sys.argv)

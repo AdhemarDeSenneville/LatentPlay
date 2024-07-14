@@ -1,16 +1,6 @@
 import numpy as np
 import time
 
-def update(p1, p2, p3, p4, p5):
-
-    time.sleep(1)
-    
-    fs = 44100 + p1  # Sample rate
-    t = np.linspace(0, 1, fs//4, endpoint=False)
-    sound_data = p2 * 0.5 * np.sin(2 * np.pi * 110 * t) * (1 - t)
-
-    return sound_data
-
 # Imports
 import numpy as np # linear algebra
 import os
