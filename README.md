@@ -82,8 +82,8 @@ This part of the project was intentionally developed without reference to existi
 
 Let $z$ represent the latent space. Our objective is to modify this space $z \rightarrow z'$ in a meaningful way to control five parameters:
 
-1. $\lambda'_1 = \langle z', w_{(1)} \rangle$: The projection of $z'$ onto the first principal component.
-2. $\lambda'_2 = \langle z', w_{(2)} \rangle$: The projection of $z'$ onto the second principal component.
+1. $\lambda _1' = \langle z', w_{(1)} \rangle$: The projection of $z'$ onto the first principal component.
+2. $\lambda _2' = \langle z', w_{(2)} \rangle$: The projection of $z'$ onto the second principal component.
 3. $f' = \langle z', \theta_{\text{f}} \rangle$: Estimated audio frequency from the latent space.
 4. $\alpha' = \langle z', \theta_{\alpha} \rangle$: Estimated audio attack from the latent space.
 5. $\beta' = \langle z', \theta_{\beta} \rangle$: Estimated audio release from the latent space.
@@ -119,7 +119,7 @@ We also want $z'$ to be 'close' to $z$ in the latent space, measured by the L2 n
 
 This forms a classical convex optimization problem. The analytical solution is:
 ```math
-z' = z + A^T (A A^T)^{-1} (b - Az)
+z' = z + A^T (A A^T)^{-1} (b' - Az)
 ```
 This formulation allows for precise manipulation of the latent space, ensuring that modifications to the audio characteristics are both intentional and controlled.
 
@@ -190,13 +190,13 @@ Unfortunately, the model has been trained on private, paid sample packs. Neither
 
 It is interesting to see that we built a compressed representation of the dataset.
 
-- $\text{Dataset\_Size} = \text{Nb\_audio} \times \text{Duration} \times \text{sample rate}$
-- $\text{Compressed\_Size} = \text{Nb\_audio} \times \text{LatentSpace\_Size} + \text{Nb\_decoder\_parameters}$
+- $\text{DatasetSize} = \text{NbAudio} \times \text{Duration} \times \text{SampleRate}$
+- $\text{CompressedSize} = \text{Nb\_audio} \times \text{LatentSpace\_Size} + \text{NbDecoderParameters}$
 
 In one of my experiments, we get:
 
-- $\text{Dataset\_Size} = 2,448 \times 0.3 \times 22,050 \approx 16.2 \text{M floats}$
-- $\text{Compressed\_Size} = 2,448 \times 19 + 2,818,828 \approx 2.9 \text{M floats}$
+- $\text{DatasetSize} = 2,448 \times 0.3 \times 22,050 \approx 16.2 \text{M floats}$
+- $\text{CompressedSize} = 2,448 \times 19 + 2,818,828 \approx 2.9 \text{M floats}$
 
 This gives a compression rate of approximately 6.
 
