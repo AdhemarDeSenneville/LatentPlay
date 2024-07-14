@@ -11,7 +11,7 @@ from PyQt5.QtCore import Qt, pyqtSignal, QThread, QTimer
 from PyQt5.QtGui import QPainterPath, QTransform, QPen
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from Audio import LatentPlayGenerator
+from audio import LatentPlayGenerator
 from deep_ae import TimeFrequencyLoss
 
 MODEL_PATH = r'models'
