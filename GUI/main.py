@@ -559,7 +559,7 @@ class Ui_Dialog(QMainWindow):
             self.comboBox_Model.addItem("")
             self.comboBox_Model.setItemText(index, _translate("Dialog", folder_name))
         self.comboBox_Model.currentIndexChanged.connect(self.load_model)
-        self.comboBox_Model.setCurrentIndex(0)
+        self.comboBox_Model.setCurrentIndex(1)
         self.load_model()
 
         folders = os.listdir(self.dataset_path)    # Populate the comboBox with the folder names
@@ -639,7 +639,7 @@ class Ui_Dialog(QMainWindow):
         path = QPainterPath()
         path.moveTo(0, 0)
         for i in range(0, len(self.sound) - self.notic_padding,):
-            path.lineTo(i/nb_points * 830 , 10 *  100**(self.gain / 20) *self.sound[i])
+            path.lineTo(i/nb_points * 830 , 150*self.sound[i] / 10 ** (self.gain / 20))
 
         # Create a pen with the desired stroke width
         pen = QPen(Qt.black)  # Set the color to black or any other color you prefer
@@ -656,7 +656,7 @@ class Ui_Dialog(QMainWindow):
     def update_view_transform(self):
         
 
-        view_range = 10 ** (self.gain / 20)
+        view_range = 150 #* 10 ** (self.gain / 20)
         self.scene.setSceneRect(0, -view_range, len(self.sound) - self.notic_padding, 2 * view_range)
     
     def play_sound(self):

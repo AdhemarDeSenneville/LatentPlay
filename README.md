@@ -82,8 +82,8 @@ This part of the project was intentionally developed without reference to existi
 
 Let $z$ represent the latent space. Our objective is to modify this space $z \rightarrow z'$ in a meaningful way to control five parameters:
 
-1. $\lambda _1' = \langle z', w_{(1)} \rangle$: The projection of $z'$ onto the first principal component.
-2. $\lambda _2' = \langle z', w_{(2)} \rangle$: The projection of $z'$ onto the second principal component.
+1. $\lambda_{1}^{'} = \langle z', w_{(1)} \rangle$: The projection of $z'$ onto the first principal component.
+2. $\lambda_{2}^{'} = \langle z', w_{(2)} \rangle$: The projection of $z'$ onto the second principal component.
 3. $f' = \langle z', \theta_{\text{f}} \rangle$: Estimated audio frequency from the latent space.
 4. $\alpha' = \langle z', \theta_{\alpha} \rangle$: Estimated audio attack from the latent space.
 5. $\beta' = \langle z', \theta_{\beta} \rangle$: Estimated audio release from the latent space.
@@ -190,7 +190,7 @@ Unfortunately, the model has been trained on private, paid sample packs. Neither
 It is interesting to see that we built a compressed representation of the dataset.
 
 - $\text{DatasetSize} = \text{NbAudio} \times \text{Duration} \times \text{SampleRate}$
-- $\text{CompressedSize} = \text{NbAudio} \times \text{LatentSpace\_Size} + \text{NbDecoderParameters}$
+- $\text{CompressedSize} = \text{NbAudio} \times \text{LatentSpaceSize} + \text{NbDecoderParameters}$
 
 In one of my experiments, we get:
 
