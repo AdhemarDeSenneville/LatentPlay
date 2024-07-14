@@ -47,7 +47,6 @@ class Ui_Dialog(QMainWindow):
         self.control_precision = 1000
         self.notic_padding = 4000
 
-        #self.model = LatentPlayGenerator('models/RUN_8/data')
         self.dataset_path = dataset_path
         self.model_path = model_path
 

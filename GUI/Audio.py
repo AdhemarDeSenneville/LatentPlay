@@ -131,11 +131,24 @@ class LatentPlayGenerator(LitAutoEncoder):
 
 
 if __name__ == '__main__':
-    model = LatentPlayGenerator(r'models\RUN_8\data')
+    model = LatentPlayGenerator(r'models\Kick_003\data')
     latent_pca1, latent_pca2, target_freq, target_attack, target_release = model.encode('Dataset/kick_dataset/Acoustic Kicks/KSHMR Acoustic Kick 01.wav')
     x_hat = model.decode(latent_pca1, latent_pca2, target_freq, target_attack, target_release)
-
-    # x hat shaped (T)
+    
+    # Check Learned madding to features
+    thetas_regression = model.A[2:,:]
+    thetas_learned = model.features_linear.weight.detach().numpy()
+    #print(thetas_regression.shape,thetas_regression)
+    #print(thetas_learned.shape,thetas_learned)
+    plt.figure(figsize=(10, 4))
+    plt.plot(thetas_regression[0], 'k', label = 'Regression')
+    plt.plot(thetas_learned[0], 'r-', label = 'Learned')
+    plt.title('Theta freq')
+    plt.xlabel('Latent dim')
+    plt.ylabel('Amplitude')
+    plt.legend()
+    plt.show()
+    
     # Plot the result
     plt.figure(figsize=(10, 4))
     plt.plot(x_hat)
