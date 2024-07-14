@@ -183,7 +183,6 @@ Here is the training config:
 | hardware             | P100                   |
 | machine              | Kaggle                 |
 
-
 ## Ethical Concerns
 
 Unfortunately, the model has been trained on private, paid sample packs. Neither the dataset nor the output model can be shared from my experiments. This is particularly critical since the model's decoder weights, combined with knowledge of latent space points, are capable of reproducing the entire private dataset with high quality.
@@ -191,7 +190,7 @@ Unfortunately, the model has been trained on private, paid sample packs. Neither
 It is interesting to see that we built a compressed representation of the dataset.
 
 - $\text{DatasetSize} = \text{NbAudio} \times \text{Duration} \times \text{SampleRate}$
-- $\text{CompressedSize} = \text{Nb\_audio} \times \text{LatentSpace\_Size} + \text{NbDecoderParameters}$
+- $\text{CompressedSize} = \text{NbAudio} \times \text{LatentSpace\_Size} + \text{NbDecoderParameters}$
 
 In one of my experiments, we get:
 
