@@ -2,16 +2,11 @@
 *.pyc
 __pycache__/
 
-# Ignore virtual environment directories
-venv/
-env/
-
-# Ignore node_modules directory
-node_modules/
-
 # Ignore build output directories
 Dataset/
 models/
+saved/
+Simple_EQ_VST_Juce/
 
 # Ignore IDE specific files
 .vscode/
