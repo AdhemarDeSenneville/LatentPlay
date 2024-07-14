@@ -2,10 +2,11 @@
 
 ## -> [**YouTube Demo**](./code/Experiments_WaveShaper.ipynb) <-
 
-[**Overview**](./code/Experiments_WaveShaper.ipynb)
+[**Kaggle Code**](https://www.kaggle.com/code/adhmardesenneville/latentplay)
 | [**Overview**](#Overview)
 | [**Tutorial**](#Tutorial)
-| [**Kaggle**](#Tutorial)
+| [**Implementation**](#Implementation)
+
 
 # Overview
 
@@ -73,7 +74,7 @@ python GUI/main.py
 ```
 ## 4 - Play with Latent space !!
 
-# Implementation Details
+# Implementation
 
 ## Latent Space Modification
 
