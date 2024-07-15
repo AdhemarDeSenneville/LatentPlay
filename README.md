@@ -1,6 +1,6 @@
 # Latent Play - VST
 
-## -> [**YouTube Demo**](./code/Experiments_WaveShaper.ipynb) <-
+## -> [**YouTube Demo**](https://youtu.be/5yxfg5mBtHE) <-
 
 [**Kaggle Code**](https://www.kaggle.com/code/adhmardesenneville/latentplay)
 | [**Overview**](#Overview)
