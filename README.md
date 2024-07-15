@@ -10,7 +10,7 @@
 
 # Overview
 
-**Latent Play** is a VST plugin demonstration for sample generation. It leverages neural synthesis to offer infinite control over your sample packs. This repository contains [Kaggle](https://www.kaggle.com/code/adhmardesenneville/latentplay/output?scriptVersionId=188128696) code utilizing [PyTorch Lightning](https://lightning.ai/docs/pytorch/stable/) and [Weights & Biases (WandB)](https://wandb.ai/site) for the training pipeline, along with [PyQt5](https://pypi.org/project/PyQt5/) for the graphical user interface (GUI).
+**Latent Play** is a VST plugin demonstration for sample generation. It leverages neural synthesis to offer infinite control over all your sample packs. This repository contains [Kaggle](https://www.kaggle.com/code/adhmardesenneville/latentplay/output?scriptVersionId=188128696) code utilizing [PyTorch Lightning](https://lightning.ai/docs/pytorch/stable/) and [Weights & Biases (WandB)](https://wandb.ai/site) for the training pipeline, along with [PyQt5](https://pypi.org/project/PyQt5/) for the graphical user interface (GUI).
 
 
 ![](./fig/VST_view.png)
@@ -45,7 +45,7 @@ Dataset
 ...
 ```
 
-Organizing your samples into separate packs simplifies the process of selecting samples within the plugin. It also facilitates the analysis of how each pack clusters in the latent space.
+Organizing your samples into separate packs simplifies the process of selecting samples within the plugin. It also allows the analysis of how each pack clusters in the latent space.
 
 ![](./fig/pca_cluster.png)
 
@@ -80,6 +80,8 @@ python GUI/main.py
 
 This part of the project was intentionally developed without reference to existing literature or popular techniques, fostering more creative thinking. It's possible that the techniques discussed here are either trivial or non-existent in the literature.
 
+In signal processing, particularly with audio, certain characteristics like maximum frequency, attack, and release times are straightforward to identify but challenging to manipulate without distorting the overall structure of the sound. To effectively control these features while maintaining the integrity of the audio structure, we map the audio signal to the latent space, we then predict these features within the latent space using linear regression parameters (\(\theta_{\text{f}}, \theta_{\alpha}, \theta_{\beta}\)). This approach allows us to adjust characteristics like frequency and temporal dynamics in this latent domain. The critical insight here is that modifications made in the latent space could reflect corresponding changes in the actual audio domain, but crucially, these alterations preserve the natural structure and quality of the original sound.
+
 Let $z$ represent the latent space. Our objective is to modify this space $z \rightarrow z'$ in a meaningful way to control five parameters:
 
 1. $\lambda_{1}^{'} = \langle z', w_{(1)} \rangle$: The projection of $z'$ onto the first principal component.
@@ -87,6 +89,7 @@ Let $z$ represent the latent space. Our objective is to modify this space $z \ri
 3. $f' = \langle z', \theta_{\text{f}} \rangle$: Estimated audio frequency from the latent space.
 4. $\alpha' = \langle z', \theta_{\alpha} \rangle$: Estimated audio attack from the latent space.
 5. $\beta' = \langle z', \theta_{\beta} \rangle$: Estimated audio release from the latent space.
+
 
 These constraints can be conveniently expressed as a linear matrix equality $Az' = b$, where:
 ```math
@@ -206,6 +209,7 @@ This gives a compression rate of approximately 6.
 - Explore and implement other model architectures.
 - Learn latent space temporal dynamics using LSTM (Long Short-Term Memory) networks, and ensure compatibility with any sample size.
 - Improve custom feature control.
+- Change custom feature control.
 
 # 
 - Tonal and saturated, 

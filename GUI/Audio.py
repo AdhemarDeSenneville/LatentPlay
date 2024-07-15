@@ -113,7 +113,12 @@ class LatentPlayGenerator(LitAutoEncoder):
         target_freq, target_attack, target_release = target_freq, target_attack, target_release
         # Make z satisfy the targets with minimum change according linear regression
         b = np.array([latent_pca1, latent_pca2, target_freq, target_attack, target_release])
-        z_prim = self.z - self.C @ (self.A @ self.z - b)
+        
+        latent_residual = self.A @ self.z - b
+
+        latent_residual[2:] *= 7
+
+        z_prim = self.z - self.C @ (latent_residual)
 
         z_prim = torch.tensor(z_prim).unsqueeze(0).float()
         x_hat = self.forward_decode(z_prim).squeeze().detach().numpy()
